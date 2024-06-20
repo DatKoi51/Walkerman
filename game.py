@@ -1,5 +1,7 @@
 import pygame
+import random
 from walkerman import *
+from enemy import *
 
 class game:
     #pygame setup
@@ -8,6 +10,8 @@ class game:
     y= 720
     x_coord = x/2
     y_coord = y/2
+    random_x = random.randrange(1280)
+    random_y = random.randrange(720)
     speed = 5
     width = 30
     height = 30
@@ -23,6 +27,18 @@ class game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+        enemy_npc = Enemy(5,random_x, random_y, width, height)
+        enemySquare = Enemy.displaySquare(screen, enemy_npc.square)
+
+        if(enemy_npc.x < x_coord):
+            random_x += 5
+        elif(enemy_npc.x > x_coord):
+            random_x -= 5
+        if(enemy_npc.y < y_coord):
+            random_y += 5
+        elif(enemy_npc.y > y_coord):
+            random_y -= 5
 
         keys = pygame.key.get_pressed()
 
