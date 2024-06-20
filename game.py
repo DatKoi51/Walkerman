@@ -29,20 +29,20 @@ class game:
         if keys[pygame.K_LEFT] and x_coord > 0:
             x_coord -= speed
         
-        if keys[pygame.K_RIGHT] and x_coord < x - 30:
+        if keys[pygame.K_RIGHT] and x_coord < x - width:
             x_coord += speed
 
         if keys[pygame.K_UP] and y_coord > 0:
             y_coord -= speed
 
-        if keys[pygame.K_DOWN] and y_coord < y - 30:
+        if keys[pygame.K_DOWN] and y_coord < y - height:
             y_coord += speed
 
         player = walkerman(speed, x_coord, y_coord, width, height)
 
         playerSquare = walkerman.displaySquare(screen, player.square)
 
-        if keys[pygame.K_LSHIFT] and keys[pygame.K_SPACE]:
+        if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT] and keys[pygame.K_SPACE]:
             width -= 2
             height -= 2
 
