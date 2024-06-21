@@ -25,11 +25,18 @@ class game:
     clock = pygame.time.Clock()
     running = True
     game_over = False
+    score = 0
+
+    def displayScore(surface, score):
+        font = pygame.font.Font(None,36)
+        score_text = font.render(f"Score: {score}", True, (255,255,255))
+        surface.blit(score_text,(10,10))
+
 
     while running:
         screen.fill("black")
 
-        
+        displayScore(screen,score)
 
         #pygame.QUIT events means the user clicked X to close your window
         for event in pygame.event.get():
@@ -66,20 +73,35 @@ class game:
 
         playerSquare = walkerman.displaySquare(screen, player.square)
 
-        if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT] and keys[pygame.K_SPACE]:
-            player_size -= 2
+        if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT] and keys[pygame.K_SPACE] and player_size >= 15:
+            if player_size < 15:
+                player_size = 15
+            else:
+                player_size -= 2
 
-        elif keys[pygame.K_SPACE]:
+        elif keys[pygame.K_SPACE] and player_size < enemy_size * 2:
             player_size += 2
 
         if(Enemy.attack(enemySquare,playerSquare) and enemy_size >= player_size):
             game_over = True
+        elif(Enemy.attack(enemySquare,playerSquare) and enemy_size < player_size):
+            random_x = random.randrange(x)
+            random_y = random.randrange(y)
+            enemy_size = random.randrange(player_size * 1 // 4, player_size * 2)
+            score += 1
 
         while game_over:
+            # Reset the screen
             screen = pygame.display.set_mode((x, y),0,0,0,1)
-            font = pygame.font.Font(None, 75)
-            text = font.render("Game Over", 1, (255, 0, 0))
+            # Initialize game over font
+            gover_font = pygame.font.Font(None, 75)
+            text = gover_font.render("Game Over", 1, (255, 0, 0))
             screen.blit(text, (x // 2 - text.get_width() // 2, y // 2 - text.get_height() // 2))
+            # Initialize score font
+            score_font = pygame.font.Font(None,36)
+            score_text = score_font.render(f"Score: {score}", True, (255,255,255))
+            screen.blit(score_text,(x // 2 - score_text.get_width() // 2, (y * 57 // 100 - score_text.get_height() // 2) ))
+            # Run the frames
             pygame.display.flip()
             clock.tick(15)
 
