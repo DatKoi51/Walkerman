@@ -9,4 +9,4 @@ class walkerman:
         self.y = y
 
     def displaySquare(surface, square):
-        pygame.draw.rect(surface, "white", square)
+        return pygame.draw.rect(surface, "white", square)

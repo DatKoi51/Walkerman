@@ -9,4 +9,7 @@ class Enemy:
         self.y = y
 
     def displaySquare(surface, square):
-        pygame.draw.rect(surface, "red", square)
+        return pygame.draw.rect(surface, "red", square)
+
+    def attack(square1: pygame.Rect, square2: pygame.Rect):
+        return square1.colliderect(square2)
